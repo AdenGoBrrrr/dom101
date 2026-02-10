@@ -58,11 +58,51 @@ function findElementsByQuery(query){
     return document.querySelectorAll(query);
 }
 
+/*Create a function `reverseList` that can reverse the content of a list (a UL or OL element).  The function should take one parameter, which is a query selector used to find the list whose children should be reversed.  Return the selected element. */
+
 function reverseList(query){
-    const startlist = document.querySelector(query);
-    let reversedlist = [];
-    for (let i = startlist.length - 1; i >= 0; i--){
-        reversedlist.push(startlist[i]);
-    }
-    return reversedlist;
+    let list = document.querySelector(query);
+    // Take a static snapshot of the children, reverse it, then append
+    // each node to move it into the reversed order.
+    const nodes = Array.from(list.children).reverse();
+    nodes.forEach(node => list.appendChild(node));
+    return list;
+} 
+
+function mover(moveThis, appendToThis){
+    const elem = document.querySelector(moveThis);
+    const target = document.querySelector(appendToThis);
+    target.appendChild(elem);
+    return target;
+}
+
+function filler(list, candidates) {
+    candidates.forEach(candidate => {
+        const li = document.createElement('li');
+        li.textContent = candidate;
+        list.appendChild(li);
+    });
+}
+
+function dupe (selector){
+    const elem = document.querySelector(selector);
+    const dupe = elem.cloneNode(true);
+    elem.parentElement.appendChild(dupe);
+    return elem;
+}
+
+function removeAll(selector){
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(elem => elem.remove());
+}
+
+function getUserData(){
+    const username = document.querySelector('#username').value;
+    const speed = parseInt(document.querySelector('#speed').value);
+    const student = document.querySelector('#student').checked;
+    return {
+        name: username,
+        speed: speed,
+        student: student
+    };
 }
